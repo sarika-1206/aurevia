@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .profile-page {
+            padding: 60px 0 90px;
+        }
+
+        .profile-header {
+            background: #1f1f1f;
+            color: white;
+            border-radius: 18px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .profile-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #c99a3d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 800;
+        }
+
+        .profile-header h1 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .profile-header p {
+            color: #c9c9c9;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .profile-card h2 {
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .profile-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #f5ead0;
+            color: #8f681e;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .quick-links {
+            display: grid;
+            gap: 12px;
+        }
+
+        .quick-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee8dc;
+            border-radius: 9px;
+            transition: 0.25s ease;
+        }
+
+        .quick-link:hover {
+            border-color: #b88a2e;
+            transform: translateX(3px);
+        }
+
+        .quick-link span:last-child {
+            color: #b88a2e;
+            font-weight: 700;
+        }
+
+        .logout-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .logout-button {
+            padding: 12px 30px;
+            border: 1px solid #b42318;
+            border-radius: 8px;
+            background: transparent;
+            color: #b42318;
+            font-weight: 700;
+        }
+
+        .logout-button:hover {
+            background: #b42318;
+            color: white;
+        }
+
+        @media (max-width: 700px) {
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                padding: 30px;
+            }
+
+            .profile-avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 27px;
+            }
+
+            .profile-header h1 {
+                font-size: 25px;
+            }
+
+            .nav-actions .btn-outline {
+                display: none;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="logo">
+                AUREVIA
+            </a>
+
+            <div class="nav-actions">
+
+                <a
+                    href="shop.html"
+                    class="btn btn-outline">
+                    Shop
+                </a>
+
+                <a
+                    href="cart.html"
+                    class="btn btn-primary">
+                    Cart
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PROFILE -->
+
+    <main class="profile-page">
+
+        <div class="container">
+
+            <section class="profile-header">
+
+                <div
+                    id="profileAvatar"
+                    class="profile-avatar">
+                    A
+                </div>
+
+                <div>
+
+                    <h1 id="profileName">
+                        Loading...
+                    </h1>
+
+                    <p id="profileEmail">
+                        Loading...
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <div class="profile-grid">
+
+
+                <!-- ACCOUNT INFORMATION -->
+
+                <section class="profile-card">
+
+                    <h2>
+                        Account Information
+                    </h2>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Full Name
+                        </span>
+
+                        <span
+                            id="nameValue"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Email
+                        </span>
+
+                        <span
+                            id="emailValue"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-label">
+                            Account Type
+                        </span>
+
+                        <span
+                            id="roleValue"
+                            class="profile-value">
+                            -
+                        </span>
+
+                    </div>
+
+                </section>
+
+
+                <!-- QUICK LINKS -->
+
+                <section class="profile-card">
+
+                    <h2>
+                        Quick Access
+                    </h2>
+
+
+                    <div class="quick-links">
+
+                        <a
+                            href="orders.html"
+                            class="quick-link">
+
+                            <span>
+                                My Orders
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="cart.html"
+                            class="quick-link">
+
+                            <span>
+                                Shopping Cart
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="shop.html"
+                            class="quick-link">
+
+                            <span>
+                                Explore Products
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <div class="logout-section">
+
+                <button
+                    onclick="handleLogout()"
+                    class="logout-button">
+
+                    Logout from Aurevia
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+
+        function loadProfile() {
+
+            const token = getToken();
+
+            const user = getCurrentUser();
+
+
+            if (!token || !user) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            document.getElementById(
+                "profileName"
+            ).textContent =
+                user.name || "Aurevia Customer";
+
+
+            document.getElementById(
+                "profileEmail"
+            ).textContent =
+                user.email || "";
+
+
+            document.getElementById(
+                "nameValue"
+            ).textContent =
+                user.name || "-";
+
+
+            document.getElementById(
+                "emailValue"
+            ).textContent =
+                user.email || "-";
+
+
+            document.getElementById(
+                "roleValue"
+            ).innerHTML = `
+
+                <span class="role-badge">
+                    ${user.role || "USER"}
+                </span>
+
+            `;
+
+
+            const firstLetter =
+                (user.name || "A")
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            document.getElementById(
+                "profileAvatar"
+            ).textContent =
+                firstLetter;
+        }
+
+
+        function handleLogout() {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to logout?"
+                );
+
+
+            if (confirmed) {
+
+                logout();
+
+            }
+
+        }
+
+
+        loadProfile();
+
+    </script>
+
+</body>
+
+</html>

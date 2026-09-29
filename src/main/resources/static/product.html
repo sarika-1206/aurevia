@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-page {
+            padding: 70px 0;
+            min-height: 75vh;
+        }
+
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .product-large-image {
+            height: 520px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #eee9df;
+        }
+
+        .product-large-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .detail-category {
+            color: #a27625;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .detail-content h1 {
+            font-size: 46px;
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .detail-price {
+            font-size: 30px;
+            font-weight: 800;
+            color: #9a701f;
+            margin-bottom: 22px;
+        }
+
+        .detail-description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .stock-info {
+            padding: 12px 15px;
+            background: #f8f6f1;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .purchase-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .quantity-input {
+            width: 90px;
+            padding: 13px;
+            border: 1px solid #ddd5c7;
+            border-radius: 8px;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .add-cart-btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #b88a2e;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .add-cart-btn:hover {
+            background: #8f681e;
+        }
+
+        .add-cart-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #edf9f0;
+            color: #18743a;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff0f0;
+            color: #b42318;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: #9a701f;
+        }
+
+        @media (max-width: 800px) {
+
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .product-large-image {
+                height: 400px;
+            }
+
+            .detail-content h1 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .product-large-image {
+                height: 320px;
+            }
+
+            .purchase-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quantity-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="logo">
+                AUREVIA
+            </a>
+
+            <div class="nav-actions">
+
+                <a href="shop.html" class="btn btn-outline">
+                    Shop
+                </a>
+
+                <a href="cart.html" class="btn btn-primary">
+                    Cart
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- PRODUCT -->
+    <main class="product-page">
+
+        <div class="container">
+
+            <a href="shop.html" class="back-link">
+                ← Back to Shop
+            </a>
+
+            <div
+                id="productContainer"
+                class="product-detail">
+
+                <div>
+                    Loading product...
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+
+        const productContainer =
+            document.getElementById("productContainer");
+
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const productId =
+            params.get("id");
+
+
+        function formatPrice(price) {
+
+            return new Intl.NumberFormat(
+                "en-IN",
+                {
+                    style: "currency",
+                    currency: "INR",
+                    maximumFractionDigits: 2
+                }
+            ).format(price);
+        }
+
+
+        function showPageMessage(message) {
+
+            productContainer.innerHTML = `
+                <div style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 80px 20px;
+                    color: #777;
+                ">
+                    ${message}
+                </div>
+            `;
+        }
+
+
+        async function loadProduct() {
+
+            if (!productId) {
+
+                showPageMessage(
+                    "Product not found."
+                );
+
+                return;
+            }
+
+
+            try {
+
+                const product =
+                    await apiRequest(
+                        "/products/" + productId
+                    );
+
+
+                const image =
+                    product.imageUrl ||
+                    "https://images.unsplash.com/photo-1523275335684-37898b6baf30";
+
+
+                productContainer.innerHTML = `
+
+                    <div class="product-large-image">
+
+                        <img
+                            src="${image}"
+                            alt="${product.name}"
+                        >
+
+                    </div>
+
+
+                    <div class="detail-content">
+
+                        <div class="detail-category">
+                            ${product.category}
+                        </div>
+
+                        <h1>
+                            ${product.name}
+                        </h1>
+
+                        <div class="detail-price">
+                            ${formatPrice(product.price)}
+                        </div>
+
+                        <p class="detail-description">
+                            ${product.description}
+                        </p>
+
+                        <div class="stock-info">
+
+                            ${
+                                product.stock > 0
+                                ? `${product.stock} items available`
+                                : "Currently out of stock"
+                            }
+
+                        </div>
+
+
+                        ${
+                            product.stock > 0
+                            ? `
+
+                                <div class="purchase-row">
+
+                                    <input
+                                        type="number"
+                                        id="quantity"
+                                        class="quantity-input"
+                                        value="1"
+                                        min="1"
+                                        max="${product.stock}"
+                                    >
+
+                                    <button
+                                        id="addCartButton"
+                                        class="add-cart-btn">
+                                        Add to Cart
+                                    </button>
+
+                                </div>
+
+                                <div
+                                    id="message"
+                                    class="message">
+                                </div>
+
+                              `
+                            : `
+                                <button
+                                    class="add-cart-btn"
+                                    disabled>
+                                    Out of Stock
+                                </button>
+                              `
+                        }
+
+                    </div>
+                `;
+
+
+                const addButton =
+                    document.getElementById(
+                        "addCartButton"
+                    );
+
+
+                if (addButton) {
+
+                    addButton.addEventListener(
+                        "click",
+                        addToCart
+                    );
+                }
+
+
+            } catch (error) {
+
+                showPageMessage(
+                    "Unable to load this product."
+                );
+            }
+        }
+
+
+        async function addToCart() {
+
+            const token = getToken();
+
+
+            if (!token) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            const quantity =
+                parseInt(
+                    document.getElementById(
+                        "quantity"
+                    ).value
+                );
+
+
+            const button =
+                document.getElementById(
+                    "addCartButton"
+                );
+
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Adding...";
+
+
+            try {
+
+                await apiRequest(
+                    `/cart/add?productId=${productId}&quantity=${quantity}`,
+                    {
+                        method: "POST"
+                    }
+                );
+
+
+                message.textContent =
+                    "Product added to your cart.";
+
+                message.className =
+                    "message success";
+
+
+                button.textContent =
+                    "Added to Cart ✓";
+
+
+            } catch (error) {
+
+                message.textContent =
+                    error.message;
+
+                message.className =
+                    "message error";
+
+
+                button.disabled = false;
+
+                button.textContent =
+                    "Add to Cart";
+            }
+        }
+
+
+        loadProduct();
+
+    </script>
+
+</body>
+</html>

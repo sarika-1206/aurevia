@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .orders-page {
+            padding: 55px 0 80px;
+        }
+
+        .orders-heading {
+            margin-bottom: 35px;
+        }
+
+        .orders-heading h1 {
+            font-size: 42px;
+            margin-bottom: 5px;
+        }
+
+        .orders-heading p {
+            color: #777;
+        }
+
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .order-number {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .order-date {
+            color: #777;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .status {
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #edf9f0;
+            color: #18743a;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .order-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 18px;
+        }
+
+        .order-total-label {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .order-total {
+            font-size: 22px;
+            font-weight: 800;
+            color: #9a701f;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-order-btn {
+            padding: 10px 17px;
+            border: 1px solid #b88a2e;
+            border-radius: 7px;
+            background: transparent;
+            color: #8f681e;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .view-order-btn:hover {
+            background: #b88a2e;
+            color: white;
+        }
+
+        .cancel-btn {
+            padding: 10px 17px;
+            border: 1px solid #b94a48;
+            border-radius: 7px;
+            background: transparent;
+            color: #b94a48;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: #b94a48;
+            color: white;
+        }
+
+        .cancel-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f5f5f5;
+            color: #777;
+            border-color: #ccc;
+        }
+
+        .empty-orders {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 16px;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-orders h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-orders p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .state-message {
+            text-align: center;
+            padding: 70px 20px;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+
+            .orders-heading h1 {
+                font-size: 34px;
+            }
+
+            .order-top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .order-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .order-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .view-order-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="logo">
+                AUREVIA
+            </a>
+
+            <div class="nav-actions">
+
+                <a href="shop.html" class="btn btn-outline">
+                    Shop
+                </a>
+
+                <a href="cart.html" class="btn btn-primary">
+                    Cart
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ORDERS -->
+    <main class="orders-page">
+
+        <div class="container">
+
+            <div class="orders-heading">
+
+                <h1>
+                    My Orders
+                </h1>
+
+                <p>
+                    Keep track of your Aurevia purchases.
+                </p>
+
+            </div>
+
+
+            <div
+                id="ordersContainer"
+                class="orders-list">
+
+                <div class="state-message">
+                    Loading your orders...
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+
+        const ordersContainer =
+            document.getElementById("ordersContainer");
+
+
+        function formatPrice(price) {
+
+            return new Intl.NumberFormat(
+                "en-IN",
+                {
+                    style: "currency",
+                    currency: "INR",
+                    maximumFractionDigits: 2
+                }
+            ).format(price);
+
+        }
+
+
+        function formatDate(dateString) {
+
+            const date =
+                new Date(dateString);
+
+            return date.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        async function loadOrders() {
+
+            if (!getToken()) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            try {
+
+                const orders =
+                    await apiRequest("/orders");
+
+                displayOrders(orders);
+
+            } catch (error) {
+
+                console.error(
+                    "Orders loading error:",
+                    error
+                );
+
+                ordersContainer.innerHTML = `
+                    <div class="state-message">
+                        Unable to load your orders.
+                    </div>
+                `;
+
+            }
+
+        }
+
+
+        function displayOrders(orders) {
+
+            if (!orders || orders.length === 0) {
+
+                ordersContainer.innerHTML = `
+                    <div class="empty-orders">
+
+                        <h2>
+                            No orders yet
+                        </h2>
+
+                        <p>
+                            Your Aurevia journey starts
+                            with your first purchase.
+                        </p>
+
+                        <a
+                            href="shop.html"
+                            class="btn btn-primary">
+
+                            Explore Products
+
+                        </a>
+
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            ordersContainer.innerHTML =
+
+                orders.map(function(order) {
+
+                    return `
+
+                        <div class="order-card">
+
+                            <div class="order-top">
+
+                                <div>
+
+                                    <div class="order-number">
+
+                                        Order #${order.id}
+
+                                    </div>
+
+                                    <div class="order-date">
+
+                                        Placed on
+                                        ${formatDate(order.createdAt)}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="status">
+
+                                    ${order.status}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="order-bottom">
+
+                                <div>
+
+                                    <div class="order-total-label">
+
+                                        Order Total
+
+                                    </div>
+
+                                    <div class="order-total">
+
+                                        ${formatPrice(order.totalAmount)}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="order-actions">
+
+                                    <button
+                                        class="view-order-btn"
+                                        onclick="viewOrder(${order.id})">
+
+                                        View Order
+
+                                    </button>
+
+
+                                    ${
+                                        order.status === "PLACED"
+
+                                        ? `
+
+                                            <button
+                                                class="cancel-btn"
+                                                onclick="cancelOrder(${order.id})">
+
+                                                Cancel Order
+
+                                            </button>
+
+                                        `
+
+                                        : ""
+
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        function viewOrder(orderId) {
+
+            window.location.href =
+                "order-details.html?id=" +
+                orderId;
+
+        }
+
+
+        async function cancelOrder(orderId) {
+
+            const confirmed = confirm(
+                "Are you sure you want to cancel this order?"
+            );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            try {
+
+                await apiRequest(
+                    `/orders/${orderId}/cancel`,
+                    {
+                        method: "PUT"
+                    }
+                );
+
+
+                alert(
+                    "Order cancelled successfully!"
+                );
+
+
+                await loadOrders();
+
+            } catch (error) {
+
+                alert(
+                    "Unable to cancel order: " +
+                    error.message
+                );
+
+            }
+
+        }
+
+
+        loadOrders();
+
+    </script>
+
+</body>
+
+</html>

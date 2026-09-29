@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Aurevia</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+    <style>
+
+        body {
+            background: #f5f3ee;
+        }
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            background: #1f1f1f;
+            color: white;
+            padding: 28px 18px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .sidebar-logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #c99a3d;
+            padding: 0 12px;
+            margin-bottom: 45px;
+        }
+
+        .sidebar-label {
+            color: #888;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0 12px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar-nav button,
+        .sidebar-nav a {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #ccc;
+            text-align: left;
+            padding: 13px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .sidebar-nav button:hover,
+        .sidebar-nav a:hover,
+        .sidebar-nav .active {
+            background: #332d23;
+            color: #d3a54b;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 25px;
+        }
+
+        .logout-btn {
+            color: #e99b94 !important;
+        }
+
+        .logout-btn:hover {
+            background: #402624 !important;
+            color: #ffb5ae !important;
+        }
+
+        /* MAIN */
+
+        .admin-main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px 40px;
+        }
+
+        .admin-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        .admin-topbar h1 {
+            font-size: 30px;
+            margin-bottom: 4px;
+        }
+
+        .admin-topbar p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #c99a3d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* STAT CARDS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .stat-icon {
+            float: right;
+            font-size: 22px;
+        }
+
+        /* CONTENT */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .dashboard-card h2 {
+            font-size: 19px;
+            margin-bottom: 6px;
+        }
+
+        .dashboard-card-subtitle {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .quick-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee8dc;
+            border-radius: 9px;
+            margin-bottom: 10px;
+        }
+
+        .quick-action:last-child {
+            margin-bottom: 0;
+        }
+
+        .quick-action span {
+            font-size: 14px;
+        }
+
+        .quick-action button {
+            border: none;
+            background: #b88a2e;
+            color: white;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .quick-action button:hover {
+            background: #8f681e;
+        }
+
+        .welcome-box {
+            background: #1f1f1f;
+            color: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 22px;
+        }
+
+        .welcome-box h2 {
+            color: #d3a54b;
+            margin-bottom: 7px;
+        }
+
+        .welcome-box p {
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        .loading {
+            color: #777;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .sidebar-logo {
+                font-size: 14px;
+                padding: 0;
+                text-align: center;
+            }
+
+            .sidebar-label {
+                display: none;
+            }
+
+            .sidebar-nav button,
+            .sidebar-nav a {
+                text-align: center;
+                font-size: 0;
+                padding: 14px 5px;
+            }
+
+            .sidebar-nav button::before {
+                content: "●";
+                font-size: 14px;
+            }
+
+            .admin-main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 25px 18px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-topbar {
+                align-items: flex-start;
+            }
+
+            .admin-profile {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            AUREVIA
+        </div>
+
+
+        <div class="sidebar-label">
+            ADMIN PANEL
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <button
+                class="active"
+                onclick="showSection('dashboard')">
+                Dashboard
+            </button>
+
+            <button
+                onclick="goToProducts()">
+                Products
+            </button>
+
+            <button
+                onclick="goToOrders()">
+                Orders
+            </button>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="sidebar-nav logout-btn"
+                onclick="handleLogout()">
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome back to your Aurevia store.
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div
+                    id="adminAvatar"
+                    class="admin-avatar">
+                    A
+                </div>
+
+                <strong id="adminName">
+                    Admin
+                </strong>
+
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-box">
+
+            <h2>
+                Aurevia Admin Console
+            </h2>
+
+            <p>
+                Manage your products, monitor orders,
+                and keep your store running smoothly.
+            </p>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    🛍️
+                </span>
+
+                <div class="stat-label">
+                    PRODUCTS
+                </div>
+
+                <div
+                    id="productCount"
+                    class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    📦
+                </span>
+
+                <div class="stat-label">
+                    ORDERS
+                </div>
+
+                <div
+                    id="orderCount"
+                    class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    👥
+                </span>
+
+                <div class="stat-label">
+                    USERS
+                </div>
+
+                <div
+                    id="userCount"
+                    class="stat-value">
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    ₹
+                </span>
+
+                <div class="stat-label">
+                    STORE STATUS
+                </div>
+
+                <div
+                    id="storeStatus"
+                    class="stat-value">
+                    Live
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DASHBOARD CONTENT -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="dashboard-card">
+
+                <h2>
+                    Quick Actions
+                </h2>
+
+                <p class="dashboard-card-subtitle">
+                    Common store management tasks.
+                </p>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Add a new product
+                    </span>
+
+                    <button
+                        onclick="goToProducts()">
+                        Add Product
+                    </button>
+
+                </div>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Review customer orders
+                    </span>
+
+                    <button
+                        onclick="goToOrders()">
+                        View Orders
+                    </button>
+
+                </div>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Browse the storefront
+                    </span>
+
+                    <button
+                        onclick="window.location.href='shop.html'">
+                        Open Shop
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- SYSTEM INFO -->
+
+            <div class="dashboard-card">
+
+                <h2>
+                    Store Overview
+                </h2>
+
+                <p class="dashboard-card-subtitle">
+                    Current Aurevia system status.
+                </p>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Backend API
+                    </span>
+
+                    <strong>
+                        Online
+                    </strong>
+
+                </div>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Database
+                    </span>
+
+                    <strong>
+                        Connected
+                    </strong>
+
+                </div>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Authentication
+                    </span>
+
+                    <strong>
+                        JWT
+                    </strong>
+
+                </div>
+
+
+                <div class="quick-action">
+
+                    <span>
+                        Access
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+<script>
+
+
+    function checkAdminAccess() {
+
+        const token = getToken();
+
+        const user = getCurrentUser();
+
+
+        if (!token || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return false;
+        }
+
+
+        if (user.role !== "ADMIN") {
+
+            alert(
+                "Admin access required."
+            );
+
+            window.location.href =
+                "shop.html";
+
+            return false;
+        }
+
+
+        document.getElementById(
+            "adminName"
+        ).textContent =
+            user.name || "Admin";
+
+
+        document.getElementById(
+            "adminAvatar"
+        ).textContent =
+            (user.name || "A")
+                .charAt(0)
+                .toUpperCase();
+
+
+        return true;
+    }
+    async function loadDashboard() {
+
+        if (!checkAdminAccess()) {
+            return;
+        }
+
+        try {
+
+            const stats =
+                await apiRequest("/admin/stats");
+
+            document.getElementById(
+                "productCount"
+            ).textContent =
+                stats.products;
+
+            document.getElementById(
+                "orderCount"
+            ).textContent =
+                stats.orders;
+
+            document.getElementById(
+                "userCount"
+            ).textContent =
+                stats.users;
+
+            document.getElementById(
+                "storeStatus"
+            ).textContent =
+                stats.storeStatus;
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard stats error:",
+                error
+            );
+
+            document.getElementById(
+                "productCount"
+            ).textContent = "—";
+
+            document.getElementById(
+                "orderCount"
+            ).textContent = "—";
+
+            document.getElementById(
+                "userCount"
+            ).textContent = "—";
+
+            document.getElementById(
+                "storeStatus"
+            ).textContent = "Offline";
+        }
+    }
+
+   
+
+
+    function goToProducts() {
+
+        window.location.href =
+            "admin-products.html";
+    }
+
+
+    function goToOrders() {
+
+        window.location.href =
+            "admin-orders.html";
+    }
+
+
+    function showSection(section) {
+
+        if (section === "dashboard") {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
+
+    function handleLogout() {
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to logout?"
+            );
+
+
+        if (confirmed) {
+
+            logout();
+
+        }
+
+    }
+
+
+    loadDashboard();
+
+</script>
+
+</body>
+
+</html>

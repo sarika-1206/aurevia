@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #f8f6f1, #eee5d4);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10);
+        }
+
+        .auth-logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: #9a701f;
+            margin-bottom: 30px;
+        }
+
+        .auth-card h1 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #ddd5c7;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #b88a2e;
+            box-shadow: 0 0 0 3px rgba(184, 138, 46, 0.12);
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #b88a2e;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .register-btn:hover {
+            background: #8f681e;
+        }
+
+        .register-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .auth-message {
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .auth-message.error {
+            display: block;
+            background: #fff0f0;
+            color: #b42318;
+        }
+
+        .auth-message.success {
+            display: block;
+            background: #edf9f0;
+            color: #18743a;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: #9a701f;
+            font-weight: 700;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .password-note {
+            color: #888;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 500px) {
+            .auth-card {
+                padding: 30px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="auth-page">
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+                AUREVIA
+            </div>
+
+            <h1>Create your account</h1>
+
+            <p class="auth-subtitle">
+                Join Aurevia and discover a better way to shop.
+            </p>
+
+            <div id="message" class="auth-message"></div>
+
+            <form id="registerForm">
+
+                <div class="form-group">
+                    <label for="name">Full name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Your name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        minlength="8"
+                        required
+                    >
+
+                    <div class="password-note">
+                        Password must contain at least 8 characters.
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    class="register-btn"
+                    id="registerButton"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+                Already have an account?
+                <a href="login.html">Sign in</a>
+            </div>
+
+            <a href="index.html" class="back-home">
+                ← Back to Aurevia
+            </a>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const registerButton =
+            document.getElementById("registerButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className =
+                "auth-message " + type;
+        }
+
+
+        registerForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    "Creating account...";
+
+                message.className =
+                    "auth-message";
+
+
+                const name =
+                    document.getElementById("name")
+                        .value.trim();
+
+                const email =
+                    document.getElementById("email")
+                        .value.trim();
+
+                const password =
+                    document.getElementById("password")
+                        .value;
+
+
+                try {
+
+                    await apiRequest(
+                        "/auth/register",
+                        {
+                            method: "POST",
+
+                            body: JSON.stringify({
+                                name: name,
+                                email: email,
+                                password: password
+                            })
+                        }
+                    );
+
+
+                    showMessage(
+                        "Account created successfully. Redirecting to sign in...",
+                        "success"
+                    );
+
+
+                    setTimeout(function() {
+
+                        window.location.href =
+                            "login.html";
+
+                    }, 1000);
+
+
+                } catch (error) {
+
+                    showMessage(
+                        error.message,
+                        "error"
+                    );
+
+                    registerButton.disabled =
+                        false;
+
+                    registerButton.textContent =
+                        "Create Account";
+                }
+            }
+        );
+    </script>
+
+</body>
+</html>

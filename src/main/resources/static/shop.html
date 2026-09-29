@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .shop-header {
+            background: #1f1f1f;
+            color: white;
+            padding: 55px 0;
+        }
+
+        .shop-header h1 {
+            font-size: 44px;
+            margin-bottom: 8px;
+        }
+
+        .shop-header p {
+            color: #cfcfcf;
+        }
+
+        .shop-controls {
+            display: flex;
+            gap: 12px;
+            margin: 35px 0;
+            flex-wrap: wrap;
+        }
+
+        .shop-controls input,
+        .shop-controls select {
+            padding: 13px 15px;
+            border: 1px solid #ddd5c7;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .shop-controls input {
+            flex: 1;
+            min-width: 220px;
+        }
+
+        .shop-controls input:focus,
+        .shop-controls select:focus {
+            border-color: #b88a2e;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            padding-bottom: 80px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-image {
+            height: 230px;
+            background: #f1eee7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            color: #a27625;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .product-info h3 {
+            margin: 7px 0;
+            font-size: 18px;
+        }
+
+        .product-description {
+            color: #777;
+            font-size: 13px;
+            height: 42px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .view-btn {
+            padding: 9px 13px;
+            border-radius: 7px;
+            border: none;
+            background: #b88a2e;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .view-btn:hover {
+            background: #8f681e;
+        }
+
+        .state-message {
+            text-align: center;
+            padding: 70px 20px;
+            color: #777;
+            grid-column: 1 / -1;
+        }
+
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a:hover {
+            color: #b88a2e;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @media (max-width: 1000px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .nav-links {
+                display: none;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-header h1 {
+                font-size: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="logo">
+                AUREVIA
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="orders.html">Orders</a>
+                <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="cart.html" class="btn btn-outline">
+                    Cart
+                </a>
+
+                <button
+                    onclick="logout()"
+                    class="btn btn-primary">
+                    Logout
+                </button>
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HEADER -->
+    <section class="shop-header">
+
+        <div class="container">
+
+            <h1>Explore Aurevia</h1>
+
+            <p>
+                Discover products selected for modern living.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- SHOP -->
+    <main class="container">
+
+        <div class="shop-controls">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products..."
+            >
+
+            <select id="categorySelect">
+
+                <option value="">All Categories</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home">Home</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Wearables">Wearables</option>
+
+            </select>
+
+        </div>
+
+
+        <div
+            id="productsGrid"
+            class="products-grid">
+
+            <div class="state-message">
+                Loading products...
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+
+        const productsGrid =
+            document.getElementById("productsGrid");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const categorySelect =
+            document.getElementById("categorySelect");
+
+
+        function formatPrice(price) {
+
+            return new Intl.NumberFormat(
+                "en-IN",
+                {
+                    style: "currency",
+                    currency: "INR",
+                    maximumFractionDigits: 2
+                }
+            ).format(price);
+        }
+
+
+        function showMessage(message) {
+
+            productsGrid.innerHTML = `
+                <div class="state-message">
+                    ${message}
+                </div>
+            `;
+        }
+
+
+        function displayProducts(products) {
+
+            if (!products || products.length === 0) {
+
+                showMessage(
+                    "No products found. Try another search."
+                );
+
+                return;
+            }
+
+
+            productsGrid.innerHTML =
+                products.map(function(product) {
+
+                	const image = product.imageUrl;
+
+
+                    return `
+
+                        <article class="product-card">
+
+                            <a href="product.html?id=${product.id}">
+
+                                <div class="product-image">
+
+                                <img
+                                src="${image}"
+                                alt="${product.name}"
+                            >
+                          
+
+                                </div>
+
+                            </a>
+
+
+                            <div class="product-info">
+
+                                <div class="product-category">
+                                    ${product.category}
+                                </div>
+
+                                <h3>
+                                    ${product.name}
+                                </h3>
+
+                                <p class="product-description">
+                                    ${product.description}
+                                </p>
+
+
+                                <div class="product-bottom">
+
+                                    <div class="product-price">
+                                        ${formatPrice(product.price)}
+                                    </div>
+
+                                    <button
+                                        class="view-btn"
+                                        onclick="window.location.href='product.html?id=${product.id}'">
+                                        View Product
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }).join("");
+        }
+
+
+        async function loadProducts() {
+
+            try {
+
+                let endpoint = "/products";
+
+                const search =
+                    searchInput.value.trim();
+
+                const category =
+                    categorySelect.value;
+
+
+                if (search) {
+
+                    endpoint =
+                        "/products?search=" +
+                        encodeURIComponent(search);
+
+                } else if (category) {
+
+                    endpoint =
+                        "/products?category=" +
+                        encodeURIComponent(category);
+                }
+
+
+                const products =
+                    await apiRequest(endpoint);
+
+
+                displayProducts(products);
+
+            } catch (error) {
+
+                showMessage(
+                    "Unable to load products. Please try again."
+                );
+            }
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            loadProducts
+        );
+
+
+        categorySelect.addEventListener(
+            "change",
+            loadProducts
+        );
+
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const categoryFromUrl =
+            params.get("category");
+
+
+        if (categoryFromUrl) {
+
+            categorySelect.value =
+                categoryFromUrl;
+        }
+
+
+        loadProducts();
+
+    </script>
+
+</body>
+</html>

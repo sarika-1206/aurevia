@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cart | Aurevia</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .navbar {
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+        }
+
+        .nav-inner {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cart-page {
+            padding: 55px 0 80px;
+        }
+
+        .cart-heading {
+            margin-bottom: 30px;
+        }
+
+        .cart-heading h1 {
+            font-size: 42px;
+            margin-bottom: 5px;
+        }
+
+        .cart-heading p {
+            color: #777;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 330px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 14px;
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .cart-image {
+            width: 110px;
+            height: 110px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #eee9df;
+        }
+
+        .cart-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-category {
+            color: #a27625;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .cart-item h3 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .cart-price {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .quantity-controls button {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #ddd5c7;
+            background: white;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .quantity-controls button:hover {
+            background: #f8f6f1;
+        }
+
+        .quantity-value {
+            min-width: 25px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .item-total {
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .remove-btn {
+            border: none;
+            background: transparent;
+            color: #b42318;
+            font-size: 13px;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        .summary {
+            background: #1f1f1f;
+            color: white;
+            border-radius: 16px;
+            padding: 25px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary h2 {
+            margin-bottom: 22px;
+            font-size: 22px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            color: #d5d5d5;
+        }
+
+        .summary-total {
+            border-top: 1px solid #444;
+            padding-top: 18px;
+            margin-top: 18px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            border: none;
+            margin-top: 25px;
+            padding: 14px;
+            border-radius: 8px;
+            background: #c99a3d;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .checkout-btn:hover {
+            background: #b88a2e;
+        }
+
+        .clear-btn {
+            width: 100%;
+            border: 1px solid #555;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            background: transparent;
+            color: white;
+            font-weight: 600;
+        }
+
+        .clear-btn:hover {
+            background: #333;
+        }
+
+        .empty-cart {
+            background: white;
+            border: 1px solid #eee8dc;
+            border-radius: 16px;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-cart p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .state-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .cart-message {
+            margin-bottom: 20px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .cart-message.success {
+            display: block;
+            background: #edf9f0;
+            color: #18743a;
+        }
+
+        .cart-message.error {
+            display: block;
+            background: #fff0f0;
+            color: #b42318;
+        }
+
+        @media (max-width: 850px) {
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .cart-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .item-actions {
+                grid-column: 2;
+            }
+
+            .item-total {
+                text-align: left;
+            }
+
+            .cart-heading h1 {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+
+        <div class="container nav-inner">
+
+            <a href="index.html" class="logo">
+                AUREVIA
+            </a>
+
+            <div class="nav-actions">
+
+                <a href="shop.html" class="btn btn-outline">
+                    Continue Shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CART -->
+    <main class="cart-page">
+
+        <div class="container">
+
+            <div class="cart-heading">
+
+                <h1>Your Cart</h1>
+
+                <p>
+                    Review your selected items before checkout.
+                </p>
+
+            </div>
+
+
+            <div
+                id="cartMessage"
+                class="cart-message">
+            </div>
+
+
+            <div
+                id="cartContainer"
+                class="cart-layout">
+
+                <div class="state-message">
+                    Loading your cart...
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+    <script>
+
+        const cartContainer =
+            document.getElementById(
+                "cartContainer"
+            );
+
+        const cartMessage =
+            document.getElementById(
+                "cartMessage"
+            );
+
+
+        function formatPrice(price) {
+
+            return new Intl.NumberFormat(
+                "en-IN",
+                {
+                    style: "currency",
+                    currency: "INR",
+                    maximumFractionDigits: 2
+                }
+            ).format(price);
+        }
+
+
+        function showMessage(
+            message,
+            type
+        ) {
+
+            cartMessage.textContent =
+                message;
+
+            cartMessage.className =
+                "cart-message " + type;
+
+            setTimeout(function() {
+
+                cartMessage.className =
+                    "cart-message";
+
+            }, 3000);
+        }
+
+
+        async function loadCart() {
+
+            if (!getToken()) {
+
+                window.location.href =
+                    "login.html";
+
+                return;
+            }
+
+
+            try {
+
+                const cart =
+                    await apiRequest("/cart");
+
+
+                displayCart(cart);
+
+            } catch (error) {
+
+                cartContainer.innerHTML = `
+                    <div class="state-message">
+                        Unable to load your cart.
+                    </div>
+                `;
+            }
+        }
+
+
+        function displayCart(cart) {
+
+            if (!cart || cart.length === 0) {
+
+                cartContainer.innerHTML = `
+
+                    <div class="empty-cart">
+
+                        <h2>
+                            Your cart is empty
+                        </h2>
+
+                        <p>
+                            Discover something beautiful
+                            and add it to your cart.
+                        </p>
+
+                        <a
+                            href="shop.html"
+                            class="btn btn-primary">
+                            Start Shopping
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+            }
+
+
+            let subtotal = 0;
+
+
+            const itemsHTML =
+                cart.map(function(item) {
+
+                    const product =
+                        item.product;
+
+                    const itemTotal =
+                        product.price *
+                        item.quantity;
+
+                    subtotal += itemTotal;
+
+
+                    const image =
+                        product.imageUrl ||
+                        "https://images.unsplash.com/photo-1523275335684-37898b6baf30";
+
+
+                    return `
+
+                        <div class="cart-item">
+
+                            <div class="cart-image">
+
+                                <img
+                                    src="${image}"
+                                    alt="${product.name}"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="cart-category">
+                                    ${product.category}
+                                </div>
+
+                                <h3>
+                                    ${product.name}
+                                </h3>
+
+                                <div class="cart-price">
+                                    ${formatPrice(product.price)}
+                                    each
+                                </div>
+
+
+                                <div class="quantity-controls">
+
+                                    <button
+                                        onclick="updateQuantity(
+                                            ${item.id},
+                                            ${item.quantity - 1}
+                                        )">
+                                        −
+                                    </button>
+
+                                    <span class="quantity-value">
+                                        ${item.quantity}
+                                    </span>
+
+                                    <button
+                                        onclick="updateQuantity(
+                                            ${item.id},
+                                            ${item.quantity + 1}
+                                        )">
+                                        +
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="item-actions">
+
+                                <div class="item-total">
+                                    ${formatPrice(itemTotal)}
+                                </div>
+
+                                <button
+                                    class="remove-btn"
+                                    onclick="removeItem(${item.id})">
+                                    Remove
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }).join("");
+
+
+            cartContainer.innerHTML = `
+
+                <div class="cart-items">
+
+                    ${itemsHTML}
+
+                </div>
+
+
+                <aside class="summary">
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <span>
+                            ${formatPrice(subtotal)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <span>
+                            FREE
+                        </span>
+
+                    </div>
+
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <span>
+                            ${formatPrice(subtotal)}
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="checkout-btn"
+                        onclick="checkout()">
+                        Proceed to Checkout
+                    </button>
+
+
+                    <button
+                        class="clear-btn"
+                        onclick="clearCart()">
+                        Clear Cart
+                    </button>
+
+                </aside>
+
+            `;
+        }
+
+
+        async function updateQuantity(
+            cartItemId,
+            quantity
+        ) {
+
+            if (quantity <= 0) {
+
+                await removeItem(cartItemId);
+
+                return;
+            }
+
+
+            try {
+
+                await apiRequest(
+                    `/cart/${cartItemId}?quantity=${quantity}`,
+                    {
+                        method: "PUT"
+                    }
+                );
+
+
+                await loadCart();
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+            }
+        }
+
+
+        async function removeItem(
+            cartItemId
+        ) {
+
+            try {
+
+                await apiRequest(
+                    `/cart/${cartItemId}`,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                showMessage(
+                    "Item removed from cart.",
+                    "success"
+                );
+
+
+                await loadCart();
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+            }
+        }
+
+
+        async function clearCart() {
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to clear your cart?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                await apiRequest(
+                    "/cart/clear",
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+                showMessage(
+                    "Cart cleared.",
+                    "success"
+                );
+
+
+                await loadCart();
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+            }
+        }
+
+
+        async function checkout() {
+
+            const confirmed =
+                confirm(
+                    "Place your order now?"
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const order =
+                    await apiRequest(
+                        "/orders/checkout",
+                        {
+                            method: "POST"
+                        }
+                    );
+
+
+                alert(
+                    "Order #" +
+                    order.id +
+                    " placed successfully!"
+                );
+
+
+                window.location.href =
+                    "orders.html";
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+            }
+        }
+
+
+        loadCart();
+
+    </script>
+
+</body>
+</html>

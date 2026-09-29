@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aurevia | A golden way to shop</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .navbar {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-bottom: 1px solid #eee8dc;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #9a701f;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #b88a2e;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .hero {
+            min-height: 620px;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(248,246,241,0.98) 0%,
+                    rgba(248,246,241,0.85) 45%,
+                    rgba(248,246,241,0.25) 100%
+                ),
+                url("https://images.unsplash.com/photo-1441986300917-64674bd600d8")
+                center/cover;
+        }
+
+        .hero-content {
+            max-width: 620px;
+            padding: 80px 0;
+        }
+
+        .hero-label {
+            color: #a27625;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: clamp(46px, 7vw, 82px);
+            line-height: 1;
+            margin-bottom: 25px;
+            letter-spacing: -3px;
+        }
+
+        .hero h1 span {
+            color: #b88a2e;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #666;
+            max-width: 520px;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            padding: 90px 0;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-heading span {
+            color: #b88a2e;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            font-size: 38px;
+            margin-top: 8px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .category-card {
+            background: white;
+            padding: 38px 20px;
+            text-align: center;
+            border-radius: 14px;
+            border: 1px solid #eee8dc;
+            transition: 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .category-icon {
+            width: 62px;
+            height: 62px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f7efdc;
+            color: #a27625;
+            font-size: 25px;
+        }
+
+        .category-card h3 {
+            margin-bottom: 7px;
+        }
+
+        .category-card p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: #1f1f1f;
+            color: white;
+            padding: 35px;
+            border-radius: 16px;
+        }
+
+        .feature-card span {
+            color: #d4a640;
+            font-size: 30px;
+        }
+
+        .feature-card h3 {
+            margin: 15px 0 10px;
+        }
+
+        .feature-card p {
+            color: #c8c8c8;
+            font-size: 14px;
+        }
+
+        .cta {
+            background: #b88a2e;
+            color: white;
+            text-align: center;
+            border-radius: 20px;
+            padding: 70px 25px;
+        }
+
+        .cta h2 {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            margin-bottom: 25px;
+        }
+
+        .cta .btn {
+            background: white;
+            color: #8f681e;
+        }
+
+        footer {
+            background: #181818;
+            color: #bbb;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-actions .btn-outline {
+                display: none;
+            }
+
+            .hero {
+                min-height: 560px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 65px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container"
+             style="display:flex;align-items:center;justify-content:space-between;width:90%;max-width:1200px;margin:auto;">
+
+            <a href="index.html" class="logo">AUREVIA</a>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="#categories">Categories</a>
+                <a href="#why-aurevia">Why Aurevia</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">Sign In</a>
+                <a href="register.html" class="btn btn-primary">Create Account</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+
+                <div class="hero-label">
+                    Curated for modern living
+                </div>
+
+                <h1>
+                    A golden way<br>
+                    <span>to shop.</span>
+                </h1>
+
+                <p>
+                    Discover thoughtfully selected products,
+                    refined experiences and everyday essentials
+                    designed to make life feel a little more special.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="shop.html"
+                       class="btn btn-primary">
+                        Explore Collection
+                    </a>
+
+                    <a href="#categories"
+                       class="btn btn-outline">
+                        Browse Categories
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+
+        <div class="container">
+
+            <div class="section-heading">
+                <span>Explore</span>
+                <h2>Shop by Category</h2>
+            </div>
+
+            <div class="category-grid">
+
+                <a href="shop.html?category=Electronics"
+                   class="category-card">
+                    <div class="category-icon">◈</div>
+                    <h3>Electronics</h3>
+                    <p>Smart technology for modern life.</p>
+                </a>
+
+                <a href="shop.html?category=Fashion"
+                   class="category-card">
+                    <div class="category-icon">◇</div>
+                    <h3>Fashion</h3>
+                    <p>Style with a distinctive touch.</p>
+                </a>
+
+                <a href="shop.html?category=Home"
+                   class="category-card">
+                    <div class="category-icon">⌂</div>
+                    <h3>Home</h3>
+                    <p>Beautiful essentials for your space.</p>
+                </a>
+
+                <a href="shop.html?category=Accessories"
+                   class="category-card">
+                    <div class="category-icon">✦</div>
+                    <h3>Accessories</h3>
+                    <p>Small details that make a statement.</p>
+                </a>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- WHY AUREVIA -->
+    <section class="section" id="why-aurevia">
+
+        <div class="container">
+
+            <div class="section-heading">
+                <span>The Aurevia Standard</span>
+                <h2>Shopping, thoughtfully designed.</h2>
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+                    <span>✦</span>
+                    <h3>Curated Selection</h3>
+                    <p>
+                        Products chosen with quality,
+                        usefulness and modern design in mind.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <span>⌁</span>
+                    <h3>Secure Experience</h3>
+                    <p>
+                        Protected accounts and secure
+                        authentication keep your experience safe.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <span>◌</span>
+                    <h3>Simple Checkout</h3>
+                    <p>
+                        Add to cart, checkout and track
+                        your orders without unnecessary steps.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="section">
+
+        <div class="container">
+
+            <div class="cta">
+
+                <h2>Find something worth keeping.</h2>
+
+                <p>
+                    Explore the latest collection from Aurevia.
+                </p>
+
+                <a href="shop.html"
+                   class="btn">
+                    Start Shopping
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            © 2026 Aurevia. A golden way to shop.
+        </div>
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
